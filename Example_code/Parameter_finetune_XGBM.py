@@ -1,12 +1,13 @@
 # Import the Optuna library for hyperparameter optimization.
 import optuna
+from xgboost import XGBClassifier, XGBRegressor
+from sklearn.metrics import explained_variance_score
+
 
 # Define a function to train and evaluate the XGBoost model with given hyperparameters.
 def train_evaluate(x_tr, y_tr, x_val, y_val, n_tree, max_depth, lr, sub_sp, tree_method, max_bin, colsample):
   # Initialize the XGBoost Regressor model with specific hyperparameters and train it on the training data.
-  fit_md = XGBRegressor(n_estimators=n_tree, max_depth=max_depth, learning_rate=lr, 
-                        min_samples_leaf=2, colsample_bytree=colsample, subsample=sub_sp, 
-                        tree_method=tree_method, max_bin=max_bin).fit(x_tr, y_tr)
+  fit_md = XGBRegressor(n_estimators=n_tree, max_depth=max_depth, learning_rate=lr,  colsample_bytree=colsample, subsample=sub_sp, tree_method=tree_method, max_bin=max_bin).fit(x_tr, y_tr)
   
   # Predict the validation data.
   pred_val = fit_md.predict(x_val)
